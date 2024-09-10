@@ -26,3 +26,20 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+export const getSize = (quantity, { one, much, count }) => {
+  while (quantity > 20) {
+    quantity = quantity.toString().slice(-1);
+    quantity = parseInt(quantity);
+  }
+  if (quantity === 1) {
+    return one;
+  }
+  if (quantity > 1 && quantity <= 4) {
+    return much;
+  }
+  if (quantity >= 5 && quantity <= 20) {
+    return count;
+  }
+
+  return count;
+};
