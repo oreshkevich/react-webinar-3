@@ -49,7 +49,6 @@ class Store {
         {
           code: this.state.list.reduce((acc, curr) => (acc.code > curr.code ? acc : curr)).code + 1,
           title: 'Новая запись',
-          id: Math.random(),
           counter: 0,
         },
       ],
@@ -77,7 +76,6 @@ class Store {
       list: this.state.list.map(item => {
         if (item.code === code) {
           item.selected = !item.selected;
-          item.counter = item.counter + 1;
         } else {
           item.selected = false;
         }

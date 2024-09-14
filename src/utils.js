@@ -43,3 +43,8 @@ export const getSize = (quantity, { one, much, count }) => {
 
   return count;
 };
+
+export const spawnCode = (() => {
+  let start = 0;
+  return () => ++start;
+})();
