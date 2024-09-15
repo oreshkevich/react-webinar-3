@@ -80,7 +80,11 @@ class Store {
           item.selected = false;
         }
         if (item.selected) {
-          item.counter = item.counter + 1;
+          if (item.counter) {
+            item.counter = item.counter + 1;
+          } else {
+            item.counter = 1;
+          }
         }
         return item;
       }),
