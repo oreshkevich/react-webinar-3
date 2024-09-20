@@ -50,3 +50,9 @@ export const generateCode1 = (function (start = 0) {
 export function generateCode2() {
   return generateCode2.value ? ++generateCode2.value : (generateCode2.value = 1);
 }
+
+export function formatAmount(data) {
+  const price = Number.prototype.toFixed.call(parseFloat(data));
+  let priceSep = price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+  return priceSep;
+}

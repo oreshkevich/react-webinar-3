@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../modal';
+
 import { plural } from '../../utils';
 import './style.css';
 
-function Controls({ quantityOfProduct, sumCart, cartItems, removeItem }) {
-  const [isModalChange, setModalChange] = useState(false);
-  const openModelFormChange = e => {
-    setModalChange(true);
-  };
-  const closeModel = () => {
-    setModalChange(false);
-  };
+function Controls({ quantityOfProduct, sumCart, openModelFormChange }) {
   return (
     <div className="Controls">
       <div className="Controls__item">
@@ -28,24 +21,18 @@ function Controls({ quantityOfProduct, sumCart, cartItems, removeItem }) {
         </span>
       </div>
       <button onClick={openModelFormChange}>Перейти</button>
-      {isModalChange && (
-        <Modal
-          removeItem={removeItem}
-          closeModel={closeModel}
-          cartItems={cartItems}
-          sumCart={sumCart}
-        />
-      )}
     </div>
   );
 }
 
 Controls.propTypes = {
-  removeItem: PropTypes.func,
+  openModelFormChange: PropTypes.func,
+  sumCart: PropTypes.string,
+  quantityOfProduct: PropTypes.number,
 };
 
 Controls.defaultProps = {
-  removeItem: () => {},
+  openModelFormChange: () => {},
 };
 
 export default React.memo(Controls);

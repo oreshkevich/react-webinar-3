@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Item from '../item';
 import './style.css';
 
-function List({ list, addToOrder }) {
+function List({ list, actionButton, buttonName }) {
   return (
     <div className="List">
       {list.map(item => (
         <div key={item.code} className="List-item">
-          <Item item={item} addToOrder={addToOrder} />
+          <Item item={item} actionButton={actionButton} buttonName={buttonName} />
         </div>
       ))}
     </div>
@@ -21,11 +21,12 @@ List.propTypes = {
       code: PropTypes.number,
     }),
   ).isRequired,
-  addToOrder: PropTypes.func,
+  actionButton: PropTypes.func,
+  buttonName: PropTypes.string,
 };
 
 List.defaultProps = {
-  addToOrder: () => {},
+  actionButton: () => {},
 };
 
 export default React.memo(List);

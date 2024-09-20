@@ -39,6 +39,60 @@ class Store {
     // Вызываем всех слушателей
     for (const listener of this.listeners) listener();
   }
+
+  addToOrder(item, quantity = 1) {
+    const cartItems = this.state.cartItems;
+    const list = this.state.list;
+
+    const itemIndex = cartItems.findIndex(value => value.code === item);
+    if (itemIndex < 0) {
+      const cardsFilter = list.filter(value => value.code === item);
+      const newItem = {
+        ...cardsFilter[0],
+        code: item,
+        quantity: quantity,
+        quantityUnique: quantity,
+      };
+      this.setState({
+        ...this.state,
+        cartItems: [...cartItems, newItem],
+      });
+    } else {
+      const newItem = {
+        ...cartItems[itemIndex],
+        quantity: cartItems[itemIndex].quantity + quantity,
+      };
+      const newCart = cartItems.slice();
+      newCart.splice(itemIndex, 1, newItem);
+      this.setState({
+        ...this.state,
+        cartItems: [...newCart],
+      });
+    }
+  }
+
+  removeItem(cart) {
+    const cartFilterItem = this.state.cartItems.filter(cartItem => cartItem.code !== cart);
+    this.setState({
+      ...this.state,
+      cartItems: cartFilterItem,
+    });
+  }
+
+  getSumItem() {
+    const sum = this.state.cartItems.reduce((accumulatedQuantity, cartItem) => {
+      return accumulatedQuantity + cartItem.quantity * cartItem.price;
+    }, 0);
+    return sum;
+  }
+
+  getQuantityOfProduct() {
+    const quantityOfProduct = this.state.cartItems.reduce(
+      (sum, item) => sum + item.quantityUnique,
+      0,
+    );
+    return quantityOfProduct;
+  }
 }
 
 export default Store;
