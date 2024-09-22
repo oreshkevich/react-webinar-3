@@ -3,7 +3,7 @@ import List from './components/list';
 import Controls from './components/controls';
 import Head from './components/head';
 import PageLayout from './components/page-layout';
-import Modal from './components/modal';
+import ModalBasket from './components/modal-basket';
 import { formatAmount } from './utils';
 /**
  * Приложение
@@ -31,7 +31,7 @@ function App({ store }) {
     ),
     onRemoveItem: useCallback(
       code => {
-        store.removeItem(code);
+        store.removeCartItem(code);
       },
       [store],
     ),
@@ -50,12 +50,12 @@ function App({ store }) {
         openModelFormChange={openModelFormChange}
       />
       {isModalChange && (
-        <Modal
+        <ModalBasket
           closeModel={closeModel}
           cartItems={cartItems}
           removeItem={callbacks.onRemoveItem}
           sumCart={sumCart}
-        ></Modal>
+        ></ModalBasket>
       )}
       <List list={list} actionButton={callbacks.onAddItem} buttonName="Добавить" />
     </PageLayout>

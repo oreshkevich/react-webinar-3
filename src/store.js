@@ -71,11 +71,11 @@ class Store {
     }
   }
 
-  removeItem(cart) {
-    const cartFilterItem = this.state.cartItems.filter(cartItem => cartItem.code !== cart);
+  removeCartItem(itemCode) {
+    const updatedCartItems = this.state.cartItems.filter(cartItem => cartItem.code !== itemCode);
     this.setState({
       ...this.state,
-      cartItems: cartFilterItem,
+      cartItems: updatedCartItems,
     });
   }
 
