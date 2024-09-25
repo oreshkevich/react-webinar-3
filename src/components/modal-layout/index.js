@@ -2,6 +2,7 @@ import { memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
+import { useTranslate } from '../../language-store';
 
 function ModalLayout(props) {
   const cn = bem('ModalLayout');
@@ -24,13 +25,15 @@ function ModalLayout(props) {
     };
   }, []);
 
+  const t = useTranslate();
+
   return (
     <div className={cn()} ref={layout}>
       <div className={cn('frame')} ref={frame}>
         <div className={cn('head')}>
           <h1 className={cn('title')}>{props.title}</h1>
           <button className={cn('close')} onClick={props.onClose}>
-            Закрыть
+            {t('toClose')}
           </button>
         </div>
         <div className={cn('content')}>{props.children}</div>

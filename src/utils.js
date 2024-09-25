@@ -33,3 +33,62 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export function createPages(pages, pagesCount, currentPage) {
+  if (currentPage > 3 && currentPage < pagesCount) {
+    pages.push({ id: 1, number: 1 });
+    pages.push({ id: Math.random(), disabled: true, number: '…' });
+    let i;
+    for (i = currentPage - 1; i <= currentPage + 1; i++) {
+      pages.push({ id: i, number: i });
+
+      if (i == pagesCount) {
+        break;
+      }
+    }
+    if (i !== pagesCount) {
+      pages.push({ id: Math.random(), disabled: true, number: '…' });
+
+      pages.push({
+        id: Math.random(),
+        number: pagesCount,
+      });
+    }
+    if (currentPage == pagesCount - 2) {
+      pages.push({
+        id: Math.random(),
+        number: pagesCount,
+      });
+    }
+  } else if (currentPage == pagesCount) {
+    pages.push({ id: 1, number: 1 });
+    pages.push({ id: Math.random(), disabled: true, number: '…' });
+    let i;
+    for (i = currentPage - 2; i < currentPage + 1; i++) {
+      pages.push({ id: i, number: i });
+
+      if (i == pagesCount) {
+        break;
+      }
+    }
+  } else if (currentPage < 3) {
+    let i;
+    for (i = 1; i <= 3; i++) {
+      pages.push({ id: i, number: i });
+      if (i == pagesCount) break;
+    }
+
+    pages.push({ id: Math.random(), disabled: true, number: '…' });
+
+    pages.push({ id: pagesCount, number: pagesCount });
+  } else {
+    let i;
+    for (i = 1; i <= 4; i++) {
+      pages.push({ id: i, number: i });
+      if (i == pagesCount) break;
+    }
+    pages.push({ id: Math.random(), disabled: true, number: '…' });
+
+    pages.push({ id: Math.random(), number: pagesCount });
+  }
+}
