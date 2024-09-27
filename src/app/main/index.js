@@ -8,18 +8,17 @@ import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
 import Pagination from '../../components/pagination';
 import ChangeLang from '../../components/changeLang';
-import { ObjectWords } from '../../language-store';
 import { useTranslate } from '../../language-store';
 function Main() {
   const store = useStore();
   useEffect(() => {
-    store.actions.catalog.load(0);
-    store.actions.catalog.loadCount(0);
+    store.actions.catalog.load(select.pageSkip);
   }, []);
 
   const select = useSelector(state => ({
     list: state.catalog.list,
     listCount: state.catalog.listCount,
+    pageSkip: state.catalog.pageSkip,
     amount: state.basket.amount,
     sum: state.basket.sum,
     pageNow: state.pagination.pageNow,
@@ -59,14 +58,7 @@ function Main() {
   return (
     <PageLayout>
       <ChangeLang handlerChangeLang={callbacks.handlerChangeLang} />
-      <Head
-        // title={
-        //   select.lang === 'en'
-        //     ? ObjectWords[select.lang].shop
-        //     : ObjectWords[select.lang].shop
-        // }
-        title={t('shop')}
-      />
+      <Head title={t('shop')} />
 
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
       <List list={select.list} renderItem={renders.item} />

@@ -7,7 +7,7 @@ class Pagination extends StoreModule {
     };
   }
   setPageNow(newState) {
-    this.setState({ pageNow: newState });
+    this.setState({ ...this.getState(), pageNow: newState });
   }
 }
 

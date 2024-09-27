@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from '../../utils';
@@ -10,9 +10,22 @@ function BasketTool({ sum, amount, onOpen }) {
   const cn = bem('BasketTool');
   const t = useTranslate();
 
+  const menuItems = {
+    menu: useMemo(
+      () => [
+        {
+          key: 1,
+          title: t('main'),
+          link: '/',
+        },
+      ],
+      [t],
+    ),
+  };
+
   return (
     <div className={cn()}>
-      <Menu />
+      <Menu elements={menuItems.menu} />
       <div>
         <span className={cn('label')}>{t('inBasket')}</span>
         <span className={cn('total')}>
