@@ -3,6 +3,14 @@
   padding: 2px;
 }
 
+.Input_theme_smell {
+  width: 200px;
+}
+
+.Input_theme_medium {
+  width: 250px;
+}
+
 .Input_theme_big {
-  width: 300px;
+  width: 308px;
 }

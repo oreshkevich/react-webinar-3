@@ -1,35 +1,31 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import useStore from '../../hooks/use-store';
+import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
-import Navigation from '../../containers/navigation';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
-import CatalogFilter from '../../containers/catalog-filter';
-import CatalogList from '../../containers/catalog-list';
+import Navigation from '../../containers/navigation';
+import Spinner from '../../components/spinner';
+import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
+import LoginForm from '../../components/login-form';
 import ButtonEnter from '../../components/button-enter';
-import useSelector from '../../hooks/use-selector';
 
-/**
- * √лавна€ страница - первична€ загрузка каталога
- */
-function Main() {
+function Login() {
   const store = useStore();
 
-  useInit(
-    () => {
-      store.actions.catalog.initParams();
-    },
-    [],
-    true,
-  );
-
   const select = useSelector(state => ({
+    error: state.authorization.error,
     data: state.getAuthorization.getData,
   }));
 
   const callbacks = {
+    submitAuthorization: useCallback(
+      userData => store.actions.authorization.submitAuthorization(userData),
+      [store],
+    ),
     exitAuthorization: useCallback(
       () => store.actions.getAuthorization.exitAuthorization(),
       [store],
@@ -50,10 +46,9 @@ function Main() {
         <LocaleSelect />
       </Head>
       <Navigation />
-      <CatalogFilter />
-      <CatalogList />
+      <LoginForm t={t} error={select.error} onSubmitAuthorization={callbacks.submitAuthorization} />
     </PageLayout>
   );
 }
 
-export default memo(Main);
+export default memo(Login);

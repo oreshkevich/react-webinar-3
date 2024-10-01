@@ -1,0 +1,53 @@
+.LoginForm {
+  padding: 17px 20px;
+}
+
+.LoginForm-title {
+  font-family: 'Arial';
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  color: #000000;
+}
+
+.LoginForm-form-error {
+  font-family: 'Arial';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  color: #FF0000;
+  margin-top: 24px;
+}
+
+.LoginForm-error {
+  font-family: 'Arial';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  color: #FF0000;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.LoginForm-form-label {
+  margin-bottom: 1px;
+}
+
+.LoginForm-submit {
+  margin-top: 1px;
+}
+
+.LoginForm-form-control {
+  display: block;
+  border: 1px solid #767676;
+  font-family: 'Arial';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  color: #000000;
+}
+
+.invalid-input {
+  background-color: #ffeff1;
+  border-color: #aa0b20;
+}

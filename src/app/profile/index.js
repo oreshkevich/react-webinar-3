@@ -1,34 +1,25 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import useStore from '../../hooks/use-store';
+import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
-import Navigation from '../../containers/navigation';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
-import CatalogFilter from '../../containers/catalog-filter';
-import CatalogList from '../../containers/catalog-list';
+import Navigation from '../../containers/navigation';
+import Spinner from '../../components/spinner';
+import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
+import LoginForm from '../../components/login-form';
 import ButtonEnter from '../../components/button-enter';
-import useSelector from '../../hooks/use-selector';
+import ProfileDescription from '../../components/profile-description';
 
-/**
- * √лавна€ страница - первична€ загрузка каталога
- */
-function Main() {
+function Profile() {
   const store = useStore();
 
-  useInit(
-    () => {
-      store.actions.catalog.initParams();
-    },
-    [],
-    true,
-  );
-
   const select = useSelector(state => ({
-    data: state.getAuthorization.getData,
+    getData: state.getAuthorization.getData,
   }));
-
   const callbacks = {
     exitAuthorization: useCallback(
       () => store.actions.getAuthorization.exitAuthorization(),
@@ -43,17 +34,17 @@ function Main() {
         linkLogin={`/login`}
         linkProfile={`/profile`}
         t={t}
-        dataAuthorization={select.data}
+        dataAuthorization={select.getData}
         onExit={callbacks.exitAuthorization}
       />
       <Head title={t('title')}>
         <LocaleSelect />
       </Head>
+
       <Navigation />
-      <CatalogFilter />
-      <CatalogList />
+      <ProfileDescription dataProfile={select.getData} />
     </PageLayout>
   );
 }
 
-export default memo(Main);
+export default memo(Profile);

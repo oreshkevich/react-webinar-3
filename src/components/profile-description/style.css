@@ -1,0 +1,22 @@
+.ProfileDescription {
+  padding: 17px 20px;
+}
+
+.ProfileDescription-title {
+  margin-bottom: 30px;
+}
+
+.ProfileDescription-prop {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 18px;
+}
+
+.ProfileDescription-label {
+  padding-right: 10px;
+}
+
+.ProfileDescription-value {
+  font-weight: bold;
+}

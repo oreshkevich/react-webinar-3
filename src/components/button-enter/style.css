@@ -1,0 +1,16 @@
+.ButtonEnter {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.ButtonEnter-link {
+  font-family: 'Arial';
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  text-decoration-line: underline;
+  color: #0087E9;
+  margin-right: 20px;
+}
