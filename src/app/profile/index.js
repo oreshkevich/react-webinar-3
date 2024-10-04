@@ -10,7 +10,6 @@ import Navigation from '../../containers/navigation';
 import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
-import LoginForm from '../../components/login-form';
 import ButtonEnter from '../../components/button-enter';
 import ProfileDescription from '../../components/profile-description';
 
@@ -18,13 +17,10 @@ function Profile() {
   const store = useStore();
 
   const select = useSelector(state => ({
-    getData: state.getAuthorization.getData,
+    getData: state.verifyToken.getData,
   }));
   const callbacks = {
-    exitAuthorization: useCallback(
-      () => store.actions.getAuthorization.exitAuthorization(),
-      [store],
-    ),
+    clearUserInfo: useCallback(() => store.actions.verifyToken.clearUserInfo(), [store]),
   };
   const { t } = useTranslate();
 
@@ -35,14 +31,14 @@ function Profile() {
         linkProfile={`/profile`}
         t={t}
         dataAuthorization={select.getData}
-        onExit={callbacks.exitAuthorization}
+        onExit={callbacks.clearUserInfo}
       />
       <Head title={t('title')}>
         <LocaleSelect />
       </Head>
 
       <Navigation />
-      <ProfileDescription dataProfile={select.getData} />
+      <ProfileDescription t={t} dataProfile={select.getData} />
     </PageLayout>
   );
 }

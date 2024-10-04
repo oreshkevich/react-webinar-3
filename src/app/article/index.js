@@ -28,7 +28,7 @@ function Article() {
   const select = useSelector(state => ({
     article: state.article.data,
     waiting: state.article.waiting,
-    data: state.getAuthorization.getData,
+    data: state.verifyToken.getData,
   }));
 
   const { t } = useTranslate();
@@ -36,10 +36,7 @@ function Article() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-    exitAuthorization: useCallback(
-      () => store.actions.getAuthorization.exitAuthorization(),
-      [store],
-    ),
+    clearUserInfo: useCallback(() => store.actions.verifyToken.clearUserInfo(), [store]),
   };
 
   return (
@@ -49,7 +46,7 @@ function Article() {
         linkProfile={`/profile`}
         t={t}
         dataAuthorization={select.data}
-        onExit={callbacks.exitAuthorization}
+        onExit={callbacks.clearUserInfo}
       />
       <Head title={select.article.title}>
         <LocaleSelect />

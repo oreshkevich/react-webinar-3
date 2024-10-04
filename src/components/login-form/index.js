@@ -1,93 +1,72 @@
-import { memo, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
 function LoginForm({ error, t, onSubmitAuthorization }) {
   const cn = bem('LoginForm');
-  const [formInputsValidity, setFormInputsValidity] = useState({
-    login: true,
-    password: true,
-  });
-  const isEmpty = value => value.trim() === '';
-  const loginInputRef = useRef();
-  const passwordInputRef = useRef();
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
 
-  const submitHandler = event => {
-    event.preventDefault();
-    const enteredLogin = loginInputRef.current.value;
-    const enteredPassword = passwordInputRef.current.value;
-
-    const enteredLoginIsValid = !isEmpty(enteredLogin);
-    const enteredPasswordIsValid = !isEmpty(enteredPassword);
-
-    setFormInputsValidity({
-      login: enteredLoginIsValid,
-      password: enteredPasswordIsValid,
-    });
-
-    const formIsValid = enteredLoginIsValid && enteredPasswordIsValid;
-
-    if (!formIsValid) {
-      return;
+  const validate = () => {
+    const newErrors = {};
+    if (!login) {
+      newErrors.login = 'Логин обязателен!';
     }
-    const objData = {
-      login: enteredLogin,
-      password: enteredPassword,
-    };
-    onSubmitAuthorization(objData);
-    loginInputRef.current.value = '';
-    passwordInputRef.current.value = '';
+    if (!password) {
+      newErrors.password = 'Пароль обязателен!';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
-  const loginControlClasses = `form-control ${formInputsValidity.login ? '' : 'invalid-input'} `;
-  const passwordControlClasses = `form-control ${
-    formInputsValidity.password ? '' : 'invalid-input'
-  } `;
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (validate()) {
+      const objData = {
+        login,
+        password,
+      };
+      onSubmitAuthorization(objData);
+      setLogin('');
+      setPassword('');
+    }
+  };
 
   return (
     <div className={cn()}>
-      <h2 className={cn('title')}>Вход</h2>
-      <form className={cn('form')} onSubmit={submitHandler}>
-        <div>
-          <label className={cn('form-label')} htmlFor="formBasicEmail">
-            Логин
+      <h2 className={cn('title')}>{t('signin')}</h2>
+      <form className={cn('form')} onSubmit={handleSubmit}>
+        <div className={cn('form-wrap')}>
+          <label className={cn('form-label')} htmlFor="formLogin">
+            {t('login')}
           </label>
           <input
             name="login"
-            id="formBasicEmail"
-            className={cn(loginControlClasses)}
-            ref={loginInputRef}
+            id="formLogin"
+            type="text"
+            value={login}
+            className={cn('form-control')}
+            onChange={e => setLogin(e.target.value.trim())}
           />
-          <div>
-            {formInputsValidity.login ? (
-              <p className={cn('form-error')}></p>
-            ) : (
-              <p className={cn('error')}>Минимальная длина 1 символ</p>
-            )}
-          </div>
+          {errors.login && <span style={{ color: 'red' }}>{errors.login}</span>}
         </div>
         <div className={cn('form-wrap')}>
-          <label className={cn('form-label')} htmlFor="formBasicPassword">
-            Пароль
+          <label className={cn('form-label')} htmlFor="formPassword">
+            {t('password')}
           </label>
           <input
             name="password"
             type="password"
-            id="formBasicPassword"
-            className={cn(passwordControlClasses)}
-            ref={passwordInputRef}
+            id="formPassword"
+            className={cn('form-control')}
+            value={password}
+            onChange={e => setPassword(e.target.value.trim())}
           />
-          <div>
-            {formInputsValidity.password ? (
-              <p className={cn('form-error')}></p>
-            ) : (
-              <p className={cn('error')}>Минимальная длина 1 символ</p>
-            )}
-          </div>
+          {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
         </div>
-        <div>
-          <p className={cn('form-error')}>{error}</p>
-        </div>
+        <div>{error && <p className={cn('form-error')}>{error}</p>}</div>
         <button type="submit" className={cn('submit')}>
           {t('basket.enter')}
         </button>
@@ -98,10 +77,14 @@ function LoginForm({ error, t, onSubmitAuthorization }) {
 
 LoginForm.propTypes = {
   t: PropTypes.func,
+  onSubmitAuthorization: PropTypes.func,
+  error: PropTypes.string,
 };
 
 LoginForm.defaultProps = {
   t: text => text,
+  onSubmitAuthorization: () => {},
+  error: '',
 };
 
 export default memo(LoginForm);

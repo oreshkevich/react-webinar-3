@@ -1,14 +1,10 @@
 import { memo, useCallback, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
-import useInit from '../../hooks/use-init';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import Navigation from '../../containers/navigation';
-import Spinner from '../../components/spinner';
-import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
 import LoginForm from '../../components/login-form';
 import ButtonEnter from '../../components/button-enter';
@@ -18,7 +14,7 @@ function Login() {
 
   const select = useSelector(state => ({
     error: state.authorization.error,
-    data: state.getAuthorization.getData,
+    data: state.verifyToken.getData,
   }));
 
   const callbacks = {
@@ -26,11 +22,9 @@ function Login() {
       userData => store.actions.authorization.submitAuthorization(userData),
       [store],
     ),
-    exitAuthorization: useCallback(
-      () => store.actions.getAuthorization.exitAuthorization(),
-      [store],
-    ),
+    clearUserInfo: useCallback(() => store.actions.verifyToken.clearUserInfo(), [store]),
   };
+
   const { t } = useTranslate();
 
   return (
@@ -40,7 +34,7 @@ function Login() {
         linkProfile={`/profile`}
         t={t}
         dataAuthorization={select.data}
-        onExit={callbacks.exitAuthorization}
+        onExit={callbacks.clearUserInfo}
       />
       <Head title={t('title')}>
         <LocaleSelect />

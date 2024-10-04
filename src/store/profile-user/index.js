@@ -1,6 +1,6 @@
 import StoreModule from '../module';
 
-class AuthState extends StoreModule {
+class UserState extends StoreModule {
   initState() {
     return {
       getData: {},
@@ -10,7 +10,7 @@ class AuthState extends StoreModule {
     };
   }
 
-  async getAuthorization(token) {
+  async verifyToken(token) {
     this.setState({
       getData: {},
       waiting: true,
@@ -42,7 +42,7 @@ class AuthState extends StoreModule {
       console.error(error.message);
     }
   }
-  async exitAuthorization() {
+  async clearUserInfo() {
     this.setState({
       getData: {},
       waiting: true,
@@ -80,4 +80,4 @@ class AuthState extends StoreModule {
   }
 }
 
-export default AuthState;
+export default UserState;

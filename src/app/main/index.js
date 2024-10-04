@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
@@ -10,13 +10,18 @@ import CatalogList from '../../containers/catalog-list';
 import LocaleSelect from '../../containers/locale-select';
 import ButtonEnter from '../../components/button-enter';
 import useSelector from '../../hooks/use-selector';
+import { useLocation } from 'react-router-dom';
 
 /**
- * Ãëàâíàÿ ñòðàíèöà - ïåðâè÷íàÿ çàãðóçêà êàòàëîãà
+ * Ð“Ð»Ð°Ð²Ð½Ð°Ñ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð° - Ð¿ÐµÑ€Ð²Ð¸Ñ‡Ð½Ð°Ñ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°
  */
 function Main() {
   const store = useStore();
+  const location = useLocation();
 
+  useEffect(() => {
+    if (location.pathname === '/') store.actions.authorization.clearError();
+  }, [location]);
   useInit(
     () => {
       store.actions.catalog.initParams();
@@ -26,15 +31,13 @@ function Main() {
   );
 
   const select = useSelector(state => ({
-    data: state.getAuthorization.getData,
+    data: state.verifyToken.getData,
   }));
 
   const callbacks = {
-    exitAuthorization: useCallback(
-      () => store.actions.getAuthorization.exitAuthorization(),
-      [store],
-    ),
+    clearUserInfo: useCallback(() => store.actions.verifyToken.clearUserInfo(), [store]),
   };
+
   const { t } = useTranslate();
 
   return (
@@ -44,7 +47,7 @@ function Main() {
         linkProfile={`/profile`}
         t={t}
         dataAuthorization={select.data}
-        onExit={callbacks.exitAuthorization}
+        onExit={callbacks.clearUserInfo}
       />
       <Head title={t('title')}>
         <LocaleSelect />

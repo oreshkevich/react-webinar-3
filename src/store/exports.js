@@ -4,4 +4,4 @@ export { default as modals } from './modals';
 export { default as article } from './article';
 export { default as locale } from './locale';
 export { default as authorization } from './authorization';
-export { default as getAuthorization } from './auth-state';
+export { default as verifyToken } from './profile-user';

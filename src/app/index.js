@@ -17,17 +17,18 @@ function App() {
   const store = useStore();
   const activeModal = useSelector(state => state.modals.name);
   const select = useSelector(state => ({
-    data: state.authorization.data,
+    data: state.authorization.dataUserInfo,
   }));
   const token = localStorage.getItem('token');
   useEffect(() => {
     if (token) {
-      store.actions.getAuthorization.getAuthorization(token);
+      store.actions.verifyToken.verifyToken(token);
     }
   }, [token, select.data]);
   useEffect(() => {
     store.actions.catalog.setAllCategories();
   }, []);
+
   return (
     <>
       <Routes>

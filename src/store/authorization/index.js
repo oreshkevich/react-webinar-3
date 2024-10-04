@@ -1,10 +1,9 @@
 import StoreModule from '../module';
 
-class AuthorizationState extends StoreModule {
+class UserState extends StoreModule {
   initState() {
     return {
-      data: {},
-      getData: {},
+      dataUserInfo: null,
       error: '',
       waiting: false, // признак ожидания загрузки
     };
@@ -12,7 +11,7 @@ class AuthorizationState extends StoreModule {
 
   async submitAuthorization(userData) {
     this.setState({
-      data: {},
+      dataUserInfo: {},
       waiting: true,
     });
     try {
@@ -27,14 +26,16 @@ class AuthorizationState extends StoreModule {
       const json = await response.json();
 
       if (!response.ok) {
-        throw new Error(json.error.message);
+        throw new Error(json.error.data.issues[0].message);
       }
 
       this.setState({
-        data: json.result,
+        dataUserInfo: json.result,
         waiting: false,
+        error: '',
       });
       localStorage.setItem('token', json.result.token);
+      window.location.assign('./profile');
     } catch (error) {
       // Ошибка при загрузке
       this.setState({
@@ -43,13 +44,9 @@ class AuthorizationState extends StoreModule {
       });
     }
   }
-
-  exitAuthorization() {
-    this.setState({
-      data: {},
-    });
-    localStorage.setItem('token', '');
+  clearError() {
+    this.setState({ error: '' });
   }
 }
 
-export default AuthorizationState;
+export default UserState;

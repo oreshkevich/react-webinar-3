@@ -47,6 +47,10 @@
   color: #000000;
 }
 
+.LoginForm-form-wrap {
+  margin-bottom: 20px;
+}
+
 .invalid-input {
   background-color: #ffeff1;
   border-color: #aa0b20;
