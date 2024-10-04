@@ -35,47 +35,32 @@ export function numberFormat(value, locale = 'ru-RU', options = {}) {
 }
 
 export function filterCategory(data) {
-  const arrayCategories = data.map(item => {
-    return { ...item, children: [] };
-  });
+  const arrayCategories = data.map(item => ({ ...item, children: [] }));
+  const map = new Map(arrayCategories.map(item => [item._id, item]));
 
-  for (let i = 0; i < arrayCategories.length; i++) {
-    let uniqueId = arrayCategories[i]._id;
-    for (let x = 0; x < arrayCategories.length; x++) {
-      if (arrayCategories[x].parent) {
-        let nameId = arrayCategories[x].parent._id;
-        if (uniqueId == nameId) {
-          arrayCategories[i].children.push(arrayCategories[x]);
-        }
-      }
+  for (const item of arrayCategories) {
+    if (item.parent) {
+      const parent = map.get(item.parent._id);
+      if (parent) parent.children.push(item);
     }
   }
 
-  const arrClear = items => {
-    let result = [];
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].parent === null) {
-        result.push(items[i]);
-      }
-    }
-
-    return result;
-  };
-  let arrFilterCategory = arrClear(arrayCategories);
+  const arrClear = items => items.filter(item => item.parent === null);
 
   const flattenTree = (arr, result, dash) => {
-    for (let i = 0; i < arr.length; i++) {
-      result.push({ ...arr[i], dash });
+    for (const item of arr) {
+      result.push({ ...item, dash });
 
-      if (arr[i].children.length) {
-        flattenTree(arr[i].children, result, dash + '- ');
+      if (item.children.length) {
+        flattenTree(item.children, result, dash + '- ');
       }
     }
   };
 
-  let result = [];
+  const result = [];
 
-  flattenTree(arrFilterCategory, result, '');
+  flattenTree(arrClear(arrayCategories), result, '');
 
   return result;
 }
+
