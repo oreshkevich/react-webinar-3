@@ -9,7 +9,7 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case 'comments/load-start':
     case 'comments/send-start':
-      return { ...state, waiting: true };
+      return { ...state, newCommentId: '', waiting: true };
 
     case 'comments/load-success':
       return {
@@ -27,6 +27,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         comments: [...state.comments, action.payload],
+        newCommentId: action.payload._id,
         count: state.count + 1,
         waiting: false,
       };

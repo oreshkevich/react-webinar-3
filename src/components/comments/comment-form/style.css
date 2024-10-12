@@ -27,15 +27,12 @@
   margin-bottom: 10px;
   font-size: 12px;
   font-weight: 700;
-  /* Сделал шрифт крупнее на время разработки */
-  /* font-size:  16px; */
 }
 
 .CommentForm-textarea {
+  padding: 5px;
   margin-bottom: 10px;
   font-size: 14px;
-  /* Сделал шрифт крупнее на время разработки */
-  /* font-size:  16px; */
   line-height: 16px;
 }
 

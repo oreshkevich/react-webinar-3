@@ -8,6 +8,7 @@ function CommentForm({
   activeCommentId: commentId,
   lastChildCommentId: lastChildId,
   userId,
+  activeCommentAuthor,
   onCancelClick: handleCancelClick,
   onSendComment: handleSendComment,
   onSignIn: handleSignIn,
@@ -44,6 +45,7 @@ function CommentForm({
               rows="5"
               value={message}
               onChange={event => setMessage(event.target.value)}
+              placeholder={commentId ? `Мой ответ для ${activeCommentAuthor} ` : 'Текст'}
             />
             <div className={cn('buttons')}>
               <button className={cn('submit')} type="submit" disabled={!message?.trim()}>

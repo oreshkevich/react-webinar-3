@@ -1,4 +1,4 @@
-import { memo, useState, React, useMemo } from 'react';
+import { memo, useState, React, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
@@ -32,23 +32,27 @@ function Comments() {
     }),
     shallowequal,
   );
-  const callbacks = useMemo(
-    () => ({
-      onAnswerClick: id => setActiveCommentId(id),
-      onCancelClick: () => setActiveCommentId(''),
-      onSendComment: message => {
-        const type = activeCommentId ? 'comment' : 'article';
-        dispatch(
-          commentsActions.send({
-            text: message,
-            parent: { _id: activeCommentId || selectRedux.articleId, _type: type },
-          }),
-        );
-      },
-      onSignIn: () => navigate('/login', { state: { back: location.pathname } }),
-    }),
-    [activeCommentId, dispatch, location.pathname, navigate, selectRedux.articleId],
-  );
+  const callbacks = {
+    onAnswerClick: id => setActiveCommentId(id),
+    onCancelClick: () => setActiveCommentId(''),
+    onSendComment: message => {
+      const type = activeCommentId ? 'comment' : 'article';
+      dispatch(
+        commentsActions.send({
+          text: message,
+          parent: { _id: activeCommentId || selectRedux.articleId, _type: type },
+        }),
+      );
+    },
+    onSignIn: () => navigate('/login', { state: { back: location.pathname } }),
+  };
+
+  useEffect(() => {
+    const newComment = document.querySelector('.CommentItem_new');
+    if (newComment) {
+      newComment.scrollIntoView({ block: 'center', behavior: 'instant' });
+    }
+  }, []);
 
   const newComments = useMemo(
     () =>
