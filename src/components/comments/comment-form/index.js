@@ -11,11 +11,12 @@ function CommentForm({
   activeCommentAuthor,
   onCancelClick: handleCancelClick,
   onSendComment: handleSendComment,
-  onSignIn: handleSignIn,
   t,
 }) {
   const cn = bem('CommentForm');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(
+    commentId ? `Мой ответ для ${activeCommentAuthor} ` : 'Текст',
+  );
 
   const isSignedIn = Boolean(userId);
 
@@ -45,7 +46,6 @@ function CommentForm({
               rows="5"
               value={message}
               onChange={event => setMessage(event.target.value)}
-              placeholder={commentId ? `Мой ответ для ${activeCommentAuthor} ` : 'Текст'}
             />
             <div className={cn('buttons')}>
               <button className={cn('submit')} type="submit" disabled={!message?.trim()}>
@@ -61,9 +61,10 @@ function CommentForm({
         </form>
       ) : (
         <div>
-          <Link className={cn('login')} to="/login" onClick={handleSignIn}>
+          <Link className={cn('login')} to="/login" state={{ back: location.pathname }}>
             {t('comments.login')}
-          </Link>{' '}
+          </Link>
+          {', '}
           {commentId ? t('comments.toComment') : t('comments.toAnswer')}
           {commentId && (
             <button className={cn('cancelLink')} type="button" onClick={handleCancel}>
@@ -82,7 +83,7 @@ CommentForm.propTypes = {
   userId: PropTypes.string,
   onCancelClick: PropTypes.func,
   onSendComment: PropTypes.func,
-  onSignIn: PropTypes.func,
+  activeCommentAuthor: PropTypes.string,
   t: PropTypes.func,
 };
 

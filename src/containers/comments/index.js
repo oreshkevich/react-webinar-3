@@ -1,5 +1,4 @@
 import { memo, useState, React, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import { useDispatch, useSelector as useSelectorRedux } from 'react-redux';
@@ -16,7 +15,6 @@ function Comments() {
   const [activeCommentId, setActiveCommentId] = useState('');
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { t } = useTranslate();
 
   const selectStore = useSelector(state => ({
@@ -44,7 +42,6 @@ function Comments() {
         }),
       );
     },
-    onSignIn: () => navigate('/login', { state: { back: location.pathname } }),
   };
 
   useEffect(() => {
@@ -73,16 +70,10 @@ function Comments() {
         onAnswerClick={callbacks.onAnswerClick}
         onCancelClick={callbacks.onCancelClick}
         onSendComment={callbacks.onSendComment}
-        onSignIn={callbacks.onSignIn}
         t={t}
       />
       {!activeCommentId && (
-        <CommentForm
-          userId={selectStore.userId}
-          onSignIn={callbacks.onSignIn}
-          onSendComment={callbacks.onSendComment}
-          t={t}
-        />
+        <CommentForm userId={selectStore.userId} onSendComment={callbacks.onSendComment} t={t} />
       )}
     </CommentLayout>
   );

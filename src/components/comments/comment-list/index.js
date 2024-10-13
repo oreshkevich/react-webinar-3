@@ -13,7 +13,6 @@ function CommentList({
   onAnswerClick,
   onCancelClick,
   onSendComment,
-  onSignIn,
   t,
 }) {
   const cn = bem('CommentList');
@@ -36,7 +35,6 @@ function CommentList({
           onAnswerClick={onAnswerClick}
           onCancelClick={onCancelClick}
           onSendComment={onSendComment}
-          onSignIn={onSignIn}
           t={t}
         />
       ))}
@@ -52,7 +50,6 @@ CommentList.propTypes = {
   onAnswerClick: PropTypes.func,
   onCancelClick: PropTypes.func,
   onSendComment: PropTypes.func,
-  onSignIn: PropTypes.func,
   t: PropTypes.func,
 };
 

@@ -15,7 +15,6 @@ function CommentItem({
   onAnswerClick,
   onCancelClick,
   onSendComment,
-  onSignIn,
   t,
 }) {
   const cn = bem('CommentItem');
@@ -48,7 +47,6 @@ function CommentItem({
           activeCommentAuthor={comment.author.profile.name}
           onCancelClick={onCancelClick}
           onSendComment={onSendComment}
-          onSignIn={onSignIn}
           t={t}
         />
       )}
@@ -65,7 +63,6 @@ CommentItem.propTypes = {
   onAnswerClick: PropTypes.func,
   onCancelClick: PropTypes.func,
   onSendComment: PropTypes.func,
-  onSignIn: PropTypes.func,
   t: PropTypes.func,
 };
 export default memo(CommentItem);
