@@ -51,6 +51,13 @@ function Comments() {
     }
   }, []);
 
+  useEffect(() => {
+    const activeComment = document.querySelector('.CommentForm_active');
+    if (activeComment) {
+      activeComment.scrollIntoView({ block: 'center', behavior: 'instant' });
+    }
+  }, [activeCommentId]);
+
   const newComments = useMemo(
     () =>
       treeToList(listToTree(selectRedux.comments, selectRedux.articleId), (item, level) => ({

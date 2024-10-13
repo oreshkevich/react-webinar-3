@@ -36,7 +36,13 @@ function CommentForm({
   return (
     <div className={cn('', { displaced: commentId === lastChildId })}>
       {isSignedIn ? (
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          className={cn('', {
+            shifted: commentId === lastChildId,
+            active: Boolean(commentId),
+          })}
+        >
           <fieldset className={cn('fieldset')}>
             <legend className={cn('legend')}>
               {commentId ? t('comments.newAnswer') : t('comments.newComment')}
@@ -60,7 +66,12 @@ function CommentForm({
           </fieldset>
         </form>
       ) : (
-        <div>
+        <div
+          className={cn('', {
+            shifted: commentId === lastChildId,
+            active: Boolean(commentId),
+          })}
+        >
           <Link className={cn('login')} to="/login" state={{ back: location.pathname }}>
             {t('comments.login')}
           </Link>
